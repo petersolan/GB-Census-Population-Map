@@ -1,4 +1,4 @@
-# GB-Census-Pop-Vis: Great Britain census map
+# GB-Census-Population-Map: Great Britain census map derived for UPRN data
 
 Census population is published for areas: postcodes and output areas (OAs) of
 roughly 100–150 households. This project shares those counts out to every
