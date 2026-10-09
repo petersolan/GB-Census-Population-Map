@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GB population map</title>
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; }
+  #geolibre-frame { border: 0; display: block; width: 100%; height: 100vh; }
+</style>
+</head>
+<body>
+<iframe id="geolibre-frame" src="https://web.geolibre.app/?embed=1&amp;theme=light" allow="fullscreen" allowfullscreen></iframe>
+<script type="application/json" id="geolibre-project">{"version": "0.1.0", "name": "Untitled Project", "mapView": {"center": [-2.5, 54.5], "zoom": 6.0, "bearing": 0, "pitch": 0}, "basemapStyleUrl": "https://tiles.openfreemap.org/styles/fiord", "basemapVisible": true, "basemapOpacity": 1, "layers": [{"id": "d2a3bbb6-a60f-4e7d-b9d5-cfb51c700a3f", "name": "Population", "type": "pmtiles", "visible": true, "opacity": 1, "style": {"minZoom": 0, "maxZoom": 24, "fillColor": "#3b82f6", "strokeColor": "#1e40af", "strokeWidth": 2, "fillOpacity": 0.6, "circleRadius": 6, "textColor": "#111827", "textHaloColor": "#ffffff", "textHaloWidth": 2, "textSize": 16, "extrusionEnabled": false, "extrusionColor": "#3b82f6", "extrusionOpacity": 0.8, "extrusionHeightProperty": "height", "extrusionHeightScale": 1, "extrusionBase": 0, "extrusionAdvancedStyleEnabled": false, "extrusionColorExpression": "", "extrusionHeightExpression": "", "vectorStyleMode": "single", "vectorStyleProperty": "", "vectorStyleClassCount": 5, "vectorStyleColorRamp": "viridis", "vectorStyleClassificationScheme": "equal-interval", "vectorStyleStops": [{"value": 0, "color": "#dbeafe"}, {"value": 1, "color": "#2563eb"}], "vectorStyleExpression": "", "pointRenderer": "single", "heatmapRadius": 30, "heatmapIntensity": 1, "heatmapColorRamp": "turbo", "heatmapWeightProperty": "", "clusterRadius": 50, "clusterMaxZoom": 14, "rasterBrightnessMin": 0, "rasterBrightnessMax": 1, "rasterSaturation": 0, "rasterContrast": 0, "rasterHueRotate": 0, "blendMode": "normal"}, "metadata": {"sourceKind": "pmtiles-url", "externalNativeLayer": true, "sourceId": "d2a3bbb6-a60f-4e7d-b9d5-cfb51c700a3f", "tileType": "raster", "sourceLayers": [], "nativeLayerIds": ["d2a3bbb6-a60f-4e7d-b9d5-cfb51c700a3f-raster"]}, "source": {"type": "raster", "url": "https://petersolan.github.io/GB-Census-Population-Map/gb_population.pmtiles", "sourceId": "d2a3bbb6-a60f-4e7d-b9d5-cfb51c700a3f", "sourceLayers": [], "tileType": "raster"}, "sourcePath": "https://petersolan.github.io/GB-Census-Population-Map/gb_population.pmtiles"}], "styles": {}, "preferences": {"map": {"restrictBounds": true, "bounds": [-9.0, 49.5, 2.5, 61.0], "minZoom": 4.5, "maxZoom": 24, "maxPitch": 85, "renderWorldCopies": true}, "environmentVariables": []}, "metadata": {}}</script>
+<script>
+(function () {
+  var frame = document.getElementById("geolibre-frame");
+  var project = JSON.parse(
+    document.getElementById("geolibre-project").textContent
+  );
+  var loaded = false;
+  function load() {
+    if (loaded || !frame.contentWindow) return;
+    loaded = true;
+    frame.contentWindow.postMessage(
+      { type: "geolibre:load-project", project: project, seq: 1 },
+      "https://web.geolibre.app"
+    );
+  }
+  // The app posts "geolibre:ready" once mounted; reply with the project. Guard
+  // on the frame as the source so an unrelated message cannot trigger the load.
+  window.addEventListener("message", function (event) {
+    if (event.source !== frame.contentWindow) return;
+    var data = event.data;
+    if (data && data.type === "geolibre:ready") load();
+  });
+})();
+</script>
+<div style="position:fixed;left:8px;bottom:8px;max-width:calc(100% - 16px);font:11px/1.4 system-ui,sans-serif;background:rgba(255,255,255,.85);color:#222;padding:3px 7px;border-radius:4px;z-index:10">Source: Office for National Statistics, licensed under the <a href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/" target="_blank" rel="noopener">Open Government Licence v3.0</a>. Contains OS data &copy; Crown copyright and database right 2026. Contains Royal Mail data &copy; Royal Mail copyright and database right 2026. &copy; Crown copyright. Data supplied by National Records of Scotland. Basemap: <a href="https://openfreemap.org" target="_blank" rel="noopener">OpenFreeMap</a> &copy; OpenMapTiles &copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap contributors</a>. <a href="https://github.com/petersolan/GB-Census-Population-Map" target="_blank" rel="noopener">Source</a></div>
+</body>
+</html>
